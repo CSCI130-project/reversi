@@ -134,10 +134,9 @@
                 spacesToCapture.forEach(space => {
                     $(`#${space} div`).removeClass().addClass("diskPlayer" + currentPlayer);
                     gameState[space] = color;
+
                 })
                 break;
-            }else{
-                console.log("ELSE")
             }
         }
         coord = id;
