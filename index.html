@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Reversi</title>
+    <style>
+        table {
+            background-color: green;
+        }
+
+        .gridCell {
+            height: 50px;
+            width: 50px;
+            border: 2px solid black;
+
+        }
+
+        #container {
+            background-color: bisque;
+            height: 90vh;
+            display: flex;
+            justify-content: space-evenly;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        thead,
+        tfoot {
+            background-color: white;
+            text-align: center;
+        }
+
+        .gridCellNumber {
+            background-color: white;
+            height: 50px;
+            width: 25px;
+            border-collapse: collapse;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .buffer {
+            background-color: white;
+            height: 25px;
+            width: 25px;
+        }
+
+        .diskPlayer1 {
+            background-color: black;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        .diskPlayer2 {
+            background-color: white;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        #menu {
+            background-color: gray;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        #timer {
+            font: 30px "Courier New", Courier, monospace;
+            background-color: lightgreen;
+        }
+
+        #playerInfo {
+            line-height: 0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+</head>
+
+<body>
+    <form id="sizeForm">
+        <label for="layoutSize">Select Grid Size:</label>
+        <select id=layoutSize>
+            <option>4x4</option>
+            <option>6x6</option>
+            <option>8x8</option>
+        </select>
+        <input type="button" value="Submit" onclick="setGridSize();" />
+    </form>
+    <div id="menu">
+        <form>
+            <select id="diskColorSelector">
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+            </select>
+            <input type="button" value="Change Disk Color" onclick="changeDiskColor();" />
+        </form>
+        <div id="timer"></div>
+        <div id="playerInfo">
+            <p id="player1Info">Player 1 has 0 disks</p>
+            <p id="player2Info">Player 2 has 0 disks</p>
+        </div>
+    </div>
+    <div id="container">
+
+    </div>
+</body>
+<script>
+
+    let gameState = {}
+
+
+    var currentPlayer = 1;
+    var startTime;
+    var gridSize;
+    $(document).ready(function () {
+        $("#menu").hide();
+        $("#container").hide()
+    })
+
+    // user selects 4x4, 6x6, or 8x8
+    function setGridSize() {
+        $("#sizeForm").hide();
+        $("#menu").show();
+        $("#container").show()
+        let selector = document.getElementById("layoutSize");
+        gridSize = selector.options[selector.selectedIndex].text[0];
+        drawGrid(Number(gridSize));
+        startTime = Date.now();
+        setInterval(updateTimer, 1)
+    }
+    function drawGrid(gridSize) {
+        let container = document.getElementById("container");
+        let table = document.createElement("TABLE");
+        let tableHead = document.createElement("THEAD");
+        let tableBody = document.createElement("TBODY");
+        let tableFoot = document.createElement("TFOOT");
+
+        container.appendChild(table);
+        table.appendChild(tableHead);
+        table.appendChild(tableBody);
+        table.appendChild(tableFoot);
+
+        var headerRow = tableHead.insertRow();
+        headerRow.insertCell().innerHTML = "<div class='buffer'></div>";
+        for (let i = 0; i < gridSize; i++)
+            headerRow.insertCell().innerText = String.fromCharCode('a'.charCodeAt(0) + i);
+        headerRow.insertCell().innerHTML = "<div class='buffer'></div>";
+
+
+        for (let i = 0; i < gridSize; i++) {
+            var row = tableBody.insertRow();
+            row.insertCell().innerHTML = "<div class='gridCellNumber'>" + i + "</div>";
+            for (let j = 0; j < gridSize; j++)
+                row.insertCell().innerHTML = `<div class='gridCell' id="${i}${j}"></div>`;
+            row.insertCell().innerHTML = "<div class='gridCellNumber'>" + i + "</div>";
+        }
+        $(".gridCell").attr("onclick", "drawDisk(this)");
+
+        var footerRow = tableFoot.insertRow();
+        footerRow.insertCell().innerHTML = "<div class='buffer'></div>";
+        for (let i = 0; i < gridSize; i++)
+            footerRow.insertCell().innerHTML = String.fromCharCode('a'.charCodeAt(0) + i);
+        footerRow.insertCell().innerHTML = "<div class='buffer'></div>";
+    }
+    function drawDisk(item) {
+        var id = $(item).attr('id');
+        // build JSON of game state
+        gameState[id] = currentPlayer == 1 ? "black" : "white";
+        console.log("id:", id, "Color:", gameState[id]);
+        
+        let disk = document.createElement("DIV");
+        disk.className = "diskPlayer" + currentPlayer;
+        if (!item.hasChildNodes()) {
+            item.appendChild(disk);
+            console.log("Player " + currentPlayer + " placed disk");
+            let player1Count = $(".diskPlayer1").length;
+            console.log(player1Count)
+            currentPlayer = currentPlayer == 1 ? 2 : 1;
+
+            $("#player1Info").html(`Player 1 has ${$(".diskPlayer1").length} disks`)
+            $("#player2Info").html(`Player 2 has ${$(".diskPlayer2").length} disks`)
+        }
+    }
+
+    // This is the game logic
+    function captureDisk() {
+        // Check down
+        for(let i = id[0]; i < gridSize; i++){}
+
+        // Check up
+        for(let i = id[0]; i >= 0 ; i--){}
+
+        // check left
+        for(let i = id[1]; i >= 0; i--){}
+
+        // Check Right
+        for(let i = id[1]; i < gridSize; i++){}
+
+
+    }
+    function changeDiskColor() {
+        let selector = document.getElementById("diskColorSelector");
+        let diskColor = selector.options[selector.selectedIndex].value;
+        $("option[value='" + diskColor + "']").attr("disabled", "disabled");
+
+
+        // change color for existing disks and future disks
+        var stylesheet = document.styleSheets;
+        for (var i = 0; i < stylesheet.length; i++) {
+            var styleList = stylesheet[i].cssRules || stylesheet[i].rules;
+            for (var j = 0; j < styleList.length; j++)
+                if (styleList[j].selectorText == ".diskPlayer" + currentPlayer)
+                    styleList[j].style.backgroundColor = diskColor;
+        }
+    }
+    function updateTimer() {
+        let elapsedTime = Date.now() - startTime;
+        let minutes = Math.floor((elapsedTime % 3600000) / 60000);
+        let seconds = Math.floor((elapsedTime % 60000) / 1000);
+        let milliseconds = Math.floor((elapsedTime % 60000) / 100);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        let timer = document.getElementById("timer");
+        timer.innerText = minutes + ":" + seconds;
+    }
+
+</script>
+
+</html>
