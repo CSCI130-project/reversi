@@ -139,7 +139,7 @@
                 break;
             }
         }
-        coord = id;
+        
         spacesToCapture = [];
 
         // Check up
@@ -158,6 +158,9 @@
             }
         }
 
+        spacesToCapture = [];
+
+
         // check left
         for(let i = x; i >= 0; i--){
             coord = y+ (Number(i)-1);
@@ -173,6 +176,8 @@
                 console.log("ELSE")
             }
         }
+
+        spacesToCapture = [];
 
         // Check Right
         for(let i = x; i < gridSize; i++){
@@ -190,8 +195,12 @@
             }
         }
 
+        spacesToCapture = [];
+
         // TODO: check diagonals
 
+        // Check diagonal NE
+       
 
     }
     function changeDiskColor() {
