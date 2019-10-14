@@ -134,8 +134,10 @@
                 spacesToCapture.forEach(space => {
                     $(`#${space} div`).removeClass().addClass("diskPlayer" + currentPlayer);
                     gameState[space] = color;
-
+                    console.log("Capture DOWN")
                 })
+                break;
+            }else{
                 break;
             }
         }
@@ -151,10 +153,11 @@
                 spacesToCapture.forEach(space => {
                     $(`#${space} div`).removeClass().addClass("diskPlayer" + currentPlayer);
                     gameState[space] = color;
+                    console.log("Capture UP")
                 })
                 break;
             }else{
-                console.log("ELSE")
+                break;
             }
         }
 
@@ -170,10 +173,11 @@
                 spacesToCapture.forEach(space => {
                     $(`#${space} div`).removeClass().addClass("diskPlayer" + currentPlayer);
                     gameState[space] = color;
+                    console.log("Capture LEFT")
                 })
                 break;
             }else{
-                console.log("ELSE")
+                break;
             }
         }
 
@@ -188,19 +192,100 @@
                 spacesToCapture.forEach(space => {
                     $(`#${space} div`).removeClass().addClass("diskPlayer" + currentPlayer);
                     gameState[space] = color;
+                    console.log("Capture RIGHT")
                 })
                 break;
             }else{
-                console.log("ELSE")
+                break;
             }
         }
 
         spacesToCapture = [];
 
-        // TODO: check diagonals
+        // Check diagonal SE
+        let j = y;
+        for(let i = x; i < gridSize; i++){
+            if(j >= gridSize-1){break;}
+            coord = String(Number(j)+1) + String((Number(i)+1));
+            if(gameState[coord] && gameState[coord] != color){
+                spacesToCapture.push(coord)
+            }else if(gameState[coord] && gameState[coord] == color){
+                spacesToCapture.forEach(space => {
+                    $(`#${space} div`).removeClass().addClass("diskPlayer" + currentPlayer);
+                    gameState[space] = color;
+                    console.log("Capture DIAG SE")
+                })
+                break;
+            }else{
+                break;
+            }
+            j++;
+        }
 
-        // Check diagonal NE
-       
+        spacesToCapture = [];
+
+        //Check Diagonal NE
+        j = y;
+        for(let i = x; i < gridSize; i++){
+            if(j <= 0){break;}
+            coord = String(Number(j)-1) + String((Number(i)+1));
+            if(gameState[coord] && gameState[coord] != color){
+                spacesToCapture.push(coord)
+            }else if(gameState[coord] && gameState[coord] == color){
+                spacesToCapture.forEach(space => {
+                    $(`#${space} div`).removeClass().addClass("diskPlayer" + currentPlayer);
+                    gameState[space] = color;
+                    console.log("Capture DIAG NE")
+                })
+                break;
+            }else{
+                break;
+            }
+            j--;
+        }
+
+        spacesToCapture = [];
+
+        // Check diagonal NW
+        j = y;
+        for(let i = x; i >= 0; i--){
+            if(j <= 0){break;}
+            coord = String(Number(j)-1) + String((Number(i)-1));
+            if(gameState[coord] && gameState[coord] != color){
+                spacesToCapture.push(coord)
+            }else if(gameState[coord] && gameState[coord] == color){
+                spacesToCapture.forEach(space => {
+                    $(`#${space} div`).removeClass().addClass("diskPlayer" + currentPlayer);
+                    gameState[space] = color;
+                    console.log("Capture DIAG NW")
+                })
+                break;
+            }else{
+                break;
+            }
+            j--;
+        }
+        spacesToCapture = [];
+
+        // Check diagonal SW
+        j = y;
+        for(let i = x; i >= 0; i--){
+            if(j >= gridSize-1){break;}
+            coord = String(Number(j)+1) + String((Number(i)-1));
+            if(gameState[coord] && gameState[coord] != color){
+                spacesToCapture.push(coord)
+            }else if(gameState[coord] && gameState[coord] == color){
+                spacesToCapture.forEach(space => {
+                    $(`#${space} div`).removeClass().addClass("diskPlayer" + currentPlayer);
+                    gameState[space] = color;
+                    console.log("Capture DIAG SW")
+                })
+                break;
+            }else{
+                break;
+            }
+            j++;
+        }
 
     }
     function changeDiskColor() {
