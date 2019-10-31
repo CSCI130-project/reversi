@@ -1,70 +1,73 @@
-table {
-    background-color: green;
+table#gridTable{
+    background-color:green;
 }
-
-.gridCell {
-    height: 50px;
-    width: 50px;
-    border: 2px solid black;
-
+.gridCell{
+    height:50px;
+    width:50px;
+    border:2px solid black;
 }
-
-#container {
-    background-color: bisque;
-    height: 90vh;
-    display: flex;
-    justify-content: space-evenly;
+#container{
+    background-color:bisque;
+    height:90vh;
+    display:flex;
+    justify-content:space-evenly;
     flex-direction: column;
-    align-items: center;
+    align-items:center;
 }
-
-thead,
-tfoot {
-    background-color: white;
-    text-align: center;
+thead, tfoot{
+    background-color:white;
+    text-align:center;
 }
-
-.gridCellNumber {
-    background-color: white;
-    height: 50px;
-    width: 25px;
-    border-collapse: collapse;
-    text-align: center;
-    line-height: 50px;
+.gridCellNumber{
+    background-color:white;
+    height:50px;
+    width:25px;
+    border-collapse:collapse;
+    text-align:center;
+    line-height:50px;
 }
-
-.buffer {
-    background-color: white;
-    height: 25px;
-    width: 25px;
+.buffer{
+    background-color:white;
+    height:25px;
+    width:25px;
 }
-
-.diskPlayer1 {
-    background-color: black;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+.diskPlayer1{
+    background-color:black;
+    height:50px;
+    width:50px;
+    border-radius:50%;
 }
-
-.diskPlayer2 {
-    background-color: white;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+.diskPlayer2{
+    background-color:white;
+    height:50px;
+    width:50px;
+    border-radius:50%;
 }
-
-#menu {
-    background-color: gray;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+.diskHighlight{
+    background-color:yellow;
+    height:50px;
+    width:50px;
+    animation:blink 0.75s infinite alternate;
 }
-
-#timer {
+#menu{
+    background-color:gray;
+    display:flex;
+    justify-content:space-evenly;
+    align-items:center;
+}
+#timer{
     font: 30px "Courier New", Courier, monospace;
-    background-color: lightgreen;
+    background-color:lightgreen;
 }
-
-#playerInfo {
-    line-height: 0;
+#player1Info, #player2Info{
+    line-height:0;
+}
+@keyframes blink
+{
+    from{
+        opacity:0.75;
+    }
+    to{
+        opacity:0.25;
+    }
 }
