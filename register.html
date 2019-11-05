@@ -58,20 +58,25 @@
             type: "POST",
             url: './server.php',
             data: data,
-            success: function (html) {
-                alert(html);
+            success: function (res) {
+                if(res == 'true'){
+                    window.location='/index.html'
+                }else{
+                    alert("Fail Register")
+                }
             }
 
         });
     }
 
-    $('#registerForm').submit(function (e) {
+    $('#registerForm').submit((e) => {
         e.preventDefault();
         var inputs = $('#registerForm :input:not(button)');
         values = {}
         inputs.each(function () {
             values[this.id] = this.value;
         });
+        values.action = "register"
         registerUser(values);
     });
 </script>
