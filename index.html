@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Reversi</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Login</h3>
+            <div class="card" style="padding: 15px;">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Login</label>
+                        <input type="text" class="form-control" id="login" placeholder="Login">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="text" class="form-control" id="password" placeholder="Password">
+                    </div>
+                    <button id="loginSubmit" type="submit" class="btn btn-primary">Submit</button>
+                    <button id="goToRegister" type="button" class="btn btn-secondary">Register</button>
+
+                </form>
+            </div>
+    </div>
+</body>
+
+<script>
+    function login(data) {
+        $.ajax({
+            type: "POST",
+            url: './server.php',
+            data: data,
+            success: function (res) {
+                console.log(res)
+                if(res == 'true'){
+                    console.log("YEAH")
+                    window.location='/game.html'
+                }else{
+                    alert("Invalid Credential")
+                }
+            }
+
+        });
+    }
+
+    $('#goToRegister').click((e)=>{
+        e.preventDefault();
+        console.log("Clicked")
+        window.location='/register.html'
+    })
+
+    $('#loginForm').submit((e) => {
+        e.preventDefault();
+        var inputs = $('#loginForm :input:not(button)');
+        values = {}
+        inputs.each(function () {
+            values[this.id] = this.value;
+        });
+        values.action = "login"
+        login(values);
+    });
+</script>
