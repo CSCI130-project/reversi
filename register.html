@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Reversi</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Register</h3>
+            <div class="card" style="padding: 15px;">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Login</label>
+                        <input type="text" class="form-control" id="login" placeholder="Login">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" class="form-control" id="age" placeholder="Age">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="gender">
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" class="form-control" id="location" placeholder="Location">
+                    </div>
+                    <button id="registerSubmit" type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+    </div>
+</body>
+
+<script>
+
+    function registerUser(data) {
+        $.ajax({
+            type: "POST",
+            url: './server.php',
+            data: data,
+            success: function (html) {
+                alert(html);
+            }
+
+        });
+    }
+
+    $('#registerForm').submit(function (e) {
+        e.preventDefault();
+        var inputs = $('#registerForm :input:not(button)');
+        values = {}
+        inputs.each(function () {
+            values[this.id] = this.value;
+        });
+        registerUser(values);
+    });
+</script>
