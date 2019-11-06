@@ -18,8 +18,10 @@ if($_POST && $_POST['action'] == 'register'){
     $age = $_POST['age'];
     $gender = $_POST['gender'];
     $location = $_POST['location'];
+    $image = $_POST['image'];
 
-    $sql = "insert into players values (null, '{$login}', '{$password}', '{$firstName}', '{$lastname}', {$age}, '{$gender}', '{$location}')";
+
+    $sql = "insert into players values (null, '{$login}', '{$password}', '{$firstName}', '{$lastname}', {$age}, '{$gender}', '{$location}', '{$image}')";
     if($conn->query($sql)){
         echo 'true';
         $conn->close(); 
@@ -41,14 +43,20 @@ if($_POST && $_POST['action'] == 'login'){
         echo 'false';
     }
 }
-// if($_GET){
-//     $sql = "select * from players";
-    
-//     while($row = $conn->query($sql)){
-//         foreach($row as $cname => $cvalue){
-//             print "$cname: $cvalue\t";
-//         }
-//         print "\r\n";
-//     }
 
-// }
+
+if($_POST && $_POST['action'] == 'saveGame'){
+    $players = $_POST['players'];
+    $duration = $_POST['duration'];
+    $score = $_POST['score'];
+
+    $sql = "insert into games values (null, '{$players}', '{$duration}', {$score})";
+
+    $res = $conn->query($sql);
+    if($res){
+        echo 'true';
+        $conn->close(); 
+    }else{
+        echo 'false';
+    }
+}
