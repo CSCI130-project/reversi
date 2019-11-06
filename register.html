@@ -36,6 +36,7 @@
                         <input type="number" class="form-control" id="age" placeholder="Age">
                     </div>
                     <div class="form-group">
+                        <label>Gender</label>
                         <select class="form-control" id="gender">
                             <option>Male</option>
                             <option>Female</option>
@@ -45,6 +46,11 @@
                         <label>Location</label>
                         <input type="text" class="form-control" id="location" placeholder="Location">
                     </div>
+                    <div class="form-group">
+                        <label>Photo</label>
+                        <input id="image" type="file" name="pic" accept="image/*">
+                    </div>
+
                     <button id="registerSubmit" type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -59,13 +65,12 @@
             url: './server.php',
             data: data,
             success: function (res) {
-                if(res == 'true'){
-                    window.location='/index.html'
-                }else{
+                if (res == 'true') {
+                    window.location = '/index.html'
+                } else {
                     alert("Fail Register")
                 }
             }
-
         });
     }
 
@@ -77,6 +82,7 @@
             values[this.id] = this.value;
         });
         values.action = "register"
+        console.log(values)
         registerUser(values);
     });
 </script>
