@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Reversi</title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+
+<header>
+    <nav id="navbar">
+        <a class="brand"><strong>REVERSI</strong></a>
+        <ul id="navigation">
+            <li class="nav-items"><a class="nav-link" href="../game.html">Play</a></li>
+            <li class="nav-items"><a class="nav-link active" href="./profile.html">Profile</a></li>
+            <!-- <li class="nav-items"><a class="nav-link" href="../lab2/index.html">Lab2</a></li>
+            <li class="nav-items"><a class="nav-link" href="../lab3/index.html">Lab3</a></li> -->
+        </ul>
+    </nav>
+</header>
+
+<body>
+    <button id="btn">
+        hi
+    </button>
+    <table class="container">
+
+    </table>
+</body>
+
+<script>
+    function getCookie(name) {
+        var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return v ? v[2] : null;
+    }
+
+    $("#btn").click(function () {
+        var user = getCookie("username")
+        $.ajax({
+            type: "GET",
+            url: `server.php?username=${user}&action=getHistory`,
+            success: function (data) {
+                console.log(data)
+                $('.container').html(data)
+            }
+        })
+    })
+
+
+</script>
