@@ -4,18 +4,27 @@
 <head>
     <meta charset="utf-8" />
     <title>Reversi</title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-
 </head>
 
+<header>
+    <nav id="navbar">
+        <a class="brand"><strong>REVERSI</strong></a>
+        <ul id="navigation">
+            <li class="nav-items"><a class="nav-link active" href="../game.html">Play</a></li>
+            <li class="nav-items"><a class="nav-link" href="../profile.html">Profile</a></li>
+        </ul>
+    </nav>
+</header>
+
 <body>
-    <form id="opponentType">
+    <form id="configForm">
         <h2>Play Against:</h2>
-        <input type="button" value="Person" onclick="setOpponentType(this)">
-        <input type="button" value="Computer" onclick="setOpponentType(this)">
-    </form>
-    <form id="sizeForm">
+        <input id="opponentPlayer" type="radio" name="opponentType" value="Person">Person <br />
+        <input id="opponentComputer" type="radio" name="opponentType" value="Computer"> Computer <br />
+        <br />
         <label for="layoutSize">Select Grid Size:</label>
         <select id=layoutSize>
             <option>4x4</option>
@@ -67,10 +76,12 @@
             </tr>
         </table>
     </div>
-    <div id="container">
+    <div id="board">
 
     </div>
 </body>
+</div>
+
 <script>
     var currentPlayer = 1;
     var startTime;
@@ -139,19 +150,22 @@
     ]
     $(document).ready(function () {
         $("#menu").hide();
-        $("#container").hide()
-        // $("#sizeForm").hide();
+        $("#board").hide()
+        //$("#sizeForm").hide();
     })
     function setOpponentType(clickedButton) {
         opponentType = clickedButton.value;
+
+        console.log(opponentType)
         //$("#sizeForm").show();
     }
 
     // user selects 4x4, 6x6, or 8x8
     function setGridSize() {
-        $("#sizeForm").hide();
+        //$("#sizeForm").hide();
+        $("#configForm").hide();
         $("#menu").show();
-        $("#container").show()
+        $("#board").show()
         let selector = document.getElementById("layoutSize");
         gridSize = Number(selector.options[selector.selectedIndex].text[0]);
         drawGrid(gridSize);
@@ -159,7 +173,7 @@
         interval = setInterval(updateTimer, 1)
     }
     function drawGrid(gridSize) {
-        let container = document.getElementById("container");
+        let container = document.getElementById("board");
         table = document.createElement("TABLE");
         table.setAttribute("id", "gridTable");
         let tableHead = document.createElement("THEAD");
@@ -223,10 +237,10 @@
                     }
                     if (count > 0 && eval(directions[i].check)) {
                         let possibleSpace = table.childNodes[1].rows[row].cells[column].childNodes[0];
-                        if (!possibleSpace.hasChildNodes()){
+                        if (!possibleSpace.hasChildNodes()) {
                             highlight(row, column);
                         }
-                            
+
                     }
                 }
             }
@@ -248,6 +262,8 @@
             currentPlayer = currentPlayer == 1 ? 2 : 1;
             turn++;
             setValidSpaces();
+            if (opponentType == 'Computer')
+                setTimeout(function () { computerTurn() }, 500);
         }
 
     }
@@ -389,32 +405,43 @@
 
             let timer = document.getElementById("timer");
             timer.innerText = minutes + ":" + seconds;
-        }else{
+        } else {
             gameDuration = document.getElementById("timer").innerText;
-            let winner = player1Score > player2Score ? ["Player1", player1Score] : ["Player2", player2Score];
+            let user = getCookie("username");
+            let won = player1Score > player2Score ? true : false
             let gameState = {
-                players: winner[0], 
-                duration: gameDuration, 
-                score: winner[1],
+                player: user,
+                duration: gameDuration,
+                score: player1Score,
+                winner: won,
                 action: "saveGame"
             }
             saveGame(gameState)
             clearInterval(interval)
         }
-            
+
     }
 
-
-    function saveGame(data){
+    function getCookie(name) {
+        var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return v ? v[2] : null;
+    }
+    
+    function saveGame(data) {
         $.ajax({
             type: "POST",
             url: './server.php',
             data: data,
             success: function (res) {
                 console.log(res)
-                if(res == 'true'){
-                    alert("Game Saved")
-                }else{
+
+                if (res == 'true') {
+                    if(data.winner){
+                        alert(`Game Saved! \n ${data.player} Won with ${data.score} Points \n Game Duration: ${data.duration}`)
+                    }else{
+                        alert(`Game Saved! \n Player2 Won with ${player2Score} Points \n Game Duration: ${data.duration}`)
+                    }
+                } else {
                     alert("Failed to save game")
                 }
             }
