@@ -41,6 +41,7 @@
                 console.log(res)
                 if(res == 'true'){
                     console.log("YEAH")
+                    document.cookie = `username=${data.login}`;
                     window.location='/game.html'
                 }else{
                     alert("Invalid Credential")
