@@ -25,7 +25,11 @@
     <button id="btn">
         Load History
     </button>
-    <table class="container">
+    <table id="historyTable" class="container">
+        <th>User</th>
+        <th>Time</th>
+        <th>Points</th>
+        <th>Won?</th>
     </table>
     <!-- <form action="upload.php" method="post" enctype="multipart/form-data">
         Select Image File to Upload:
@@ -47,7 +51,7 @@
             url: `server.php?username=${user}&action=getHistory`,
             success: function (data) {
                 console.log(data)
-                $('.container').html(data)
+                $('.container').append(data)
             }
         })
     })
