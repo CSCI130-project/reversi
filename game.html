@@ -153,12 +153,6 @@
         $("#board").hide()
         //$("#sizeForm").hide();
     })
-    function setOpponentType(clickedButton) {
-        opponentType = clickedButton.value;
-
-        console.log(opponentType)
-        //$("#sizeForm").show();
-    }
 
     // user selects 4x4, 6x6, or 8x8
     function setGridSize() {
@@ -166,6 +160,7 @@
         $("#configForm").hide();
         $("#menu").show();
         $("#board").show()
+        opponentType = $("input[name='opponentType']:checked").val();
         let selector = document.getElementById("layoutSize");
         gridSize = Number(selector.options[selector.selectedIndex].text[0]);
         drawGrid(gridSize);
