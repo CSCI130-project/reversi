@@ -1,88 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Reversi</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
 
-<head>
-    <meta charset="utf-8" />
-    <title>Reversi</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+    <body>
+        <div class="container">
+            <h2>Register</h3>
+                <div class="card" style="padding: 15px;">
+                    <div>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="firstname">First Name:</label>
+                            <span id="firstnameError"></span>
+                            <input class="form-control" type="text" name="firstname" id="firstname" placeholder="First Name"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <span id="lastnameError"></span>
+                            <input class="form-control" type="text" name="lastname" id="lastname" placeholder="Last Name"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <span id="usernameError"></span>
+                            <input class="form-control" type="text" name="username" id="username" placeholder="Username"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <span id="passwordError"></span>
+                            <input class="form-control" type="password" name="password" id="password" placeholder="Password"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <span id="ageError"></span>
+                            <input class="form-control" type="text" name="age" id="age" placeholder="Age"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <span id="genderError"></span>
+                            <select class="form-control" id="gender" name="gender">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <span id="locationError"></span>
+                            <input class="form-control" type="text" name="location" id="location" placeholder="Location"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="photo">Photo</label>
+                            <input type="file" name="fileup" id="photo" required>
+                            <span id="photoError"></span>
+                        </div>
+                    </form>
+                    <button id="registerSubmit" class="btn btn-primary" onclick="register()">Register</button>
+                </div>
+                </div>
+        </div>
+        <script>
+            function register()
+            {
+                var formElement = document.querySelector("form");
+                var formData = new FormData(formElement);
+                formData.delete("fileup");
+                formData.append('fileup', $('input[type=file]')[0].files[0]);
 
-<body>
-    <div class="container">
-        <h2>Register</h3>
-            <div class="card" style="padding: 15px;">
-                <form id="registerForm">
-                    <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="First Name">
-                    </div>
-                    <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Last Name">
-                    </div>
-                    <div class="form-group">
-                        <label>Login</label>
-                        <input type="text" class="form-control" id="login" placeholder="Login">
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <label>Age</label>
-                        <input type="number" class="form-control" id="age" placeholder="Age">
-                    </div>
-                    <div class="form-group">
-                        <label>Gender</label>
-                        <select class="form-control" id="gender">
-                            <option>Male</option>
-                            <option>Female</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Location</label>
-                        <input type="text" class="form-control" id="location" placeholder="Location">
-                    </div>
-                    <!-- <div class="form-group">
-                        <label>Photo</label>
-                        <input id="image" type="file" name="pic" accept="image/*">
-                    </div> -->
-
-                    <button id="registerSubmit" type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-    </div>
-</body>
-
-<script>
-
-    function registerUser(data) {
-        $.ajax({
-            type: "POST",
-            url: './server.php',
-            data: data,
-            success: function (res) {
-                if (res == 'true') {
-                    window.location = '/index.html'
-                } else {
-                    alert("Fail Register")
-                }
+                $.ajax({
+                    url: 'register.php',
+                    data: formData,
+                    type: 'POST',
+                    contentType: false,
+                    processData: false,
+                    success: function(data)
+                    {
+                        $("span").empty();
+                        errorArray = JSON.parse(data);
+                        if(errorArray.length == 0)
+                            window.location="index.html";
+                        else
+                        {
+                            keys = Object.keys(errorArray);
+                            for(let i = 0; i < keys.length; i++)
+                                document.getElementById(keys[i] + "Error").innerHTML = errorArray[keys[i]];
+                        }
+                    },
+                });
             }
-        });
-    }
+            function login()
+            {
+                /*
+                var username = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
 
-    $('#registerForm').submit((e) => {
-        e.preventDefault();
-        var inputs = $('#registerForm :input:not(button)');
-        values = {}
-        inputs.each(function () {
-            values[this.id] = this.value;
-        });
-        values.action = "register"
-        console.log(values)
-        registerUser(values);
-    });
-</script>
+                var d = new Date();
+                d.setTime(d.getTime() + (3*24*60*60*1000));
+                var expires = "Cookie expires="+ d.toUTCString();
+
+                document.cookie = `username=${username};expires=${expires}`;
+                document.cookie = `password=${password};;expires=${expires}`;
+                window.open("setup.html","_self",false);
+                */
+            }
+        </script>
+    </body>
+</html>
