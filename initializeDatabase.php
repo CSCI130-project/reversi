@@ -44,7 +44,8 @@
             gridSize INT(1) UNSIGNED NOT NULL,
             username VARCHAR(30) NOT NULL,
             score INT(4) UNSIGNED NOT NULL,
-            timePlayed INT(100) UNSIGNED NOT NULL
+            timePlayed VARCHAR(30) NOT NULL,
+            isWon VARCHAR(5) NOT NULL 
         )";
         if($conn->query($query))
             echo "Table created: Games<br>";

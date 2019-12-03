@@ -1,7 +1,7 @@
 <?php
     include "database.php";
 
-    $gridSize = $_POST["gridSize"];
+    $gridSize = intval($_POST["gridSize"]);
     $orderBy = $_POST["orderBy"];
 
     switch($orderBy)
@@ -17,12 +17,13 @@
         echo $conn->error;
     else
     {
-        $sql = "SELECT photo, username, score, timePlayed, gameID, gridSize FROM Players JOIN Games USING (username) ORDER BY " . $orderClause;
+        $sql = "SELECT photo, username, score, timePlayed, gameID, gridSize, isWon FROM Players JOIN Games USING (username) WHERE gridSize=$gridSize ORDER BY " . $orderClause;
         $result = $conn->query($sql);
         if($conn->error)
             echo $conn->error;
         else
         {
+            $data = "None";
             if($result->num_rows > 0)
             {
                 $data = "<TABLE>
@@ -33,6 +34,7 @@
                                 <TH>Time Played</TH>
                                 <TH>Game ID</TH>
                                 <TH>Grid Size</TH>
+                                <TH>Won</TH>
                             </TR>";
                 while($row = $result->fetch_assoc())
                 {

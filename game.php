@@ -15,12 +15,14 @@
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     </head>
 
-    <header>
-        <nav id="navbar">
+    <header role="banner">
+        <nav id="navbar" role="navigation">
             <a class="brand"><strong>REVERSI</strong></a>
             <ul id="navigation">
                 <li class="nav-items"><a class="nav-link active" href="game.php">Play</a></li>
-                <li class="nav-items"><a class="nav-link" href="profile.php">Profile</a></li>
+                <li class="nav-items"><a class="nav-link" href="leaderboard.php">Leaderboard</a></li>
+                <li class="nav-items"><a class="nav-link" href="rules.php">Rules</a></li>
+                <li class="nav-items"><a class="nav-link" href="about.php">About</a></li>
                 <li class="nav-items"><a class="nav-link" href="logout.php">Logout</a></li>
             </ul>
         </nav>
@@ -28,9 +30,10 @@
 
     <body>
         <form id="configForm">
+            <h1><ins>Reversi</ins></h1>
             <h2>Play Against:</h2>
             <input id="opponentPlayer" type="radio" name="opponentType" value="Person">Person <br />
-            <input id="opponentComputer" type="radio" name="opponentType" value="Computer"> Computer <br />
+            <input id="opponentComputer" type="radio" name="opponentType" value="Computer">Computer <br />
             <br />
             <label for="layoutSize">Select Grid Size:</label>
             <select id=layoutSize>
@@ -41,50 +44,64 @@
             <input type="button" value="Submit" onclick="setGridSize();" />
         </form>
         <div id="menu">
-            <table id="player1">
+            <table>
                 <tr>
                     <td>
                         <form>
                             <select id="diskColorSelector1">
+                                <option value="black" selected>Black</option>
                                 <option value="red">Red</option>
-                                <option value="blue">Blue</option>
+                                <option value="purple">Purple</option>
                             </select>
                         </form>
                     </td>
                     <td>
-                        <input type="button" value="Change Disk Color" onclick="changeDiskColor();" />
+                        <input type="button" value="Change Player 1 Disk Color" onclick="changeDiskColor();" />
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="2">
-                        <p id="player1Info">Player 1 has 0 disks</p>
-                    </td>
-                </tr>
-            </table>
-            <div id="timer"></div>
-            <table id="player2">
                 <tr>
                     <td>
                         <form>
                             <select id="diskColorSelector2">
-                                <option value="red">Red</option>
+                                <option value="white">White</option>
                                 <option value="blue">Blue</option>
+                                <option value="orange">Orange</option>
                             </select>
                         </form>
                     </td>
                     <td>
-                        <input type="button" value="Change Disk Color" onclick="changeDiskColor();" />
+                        <input type="button" value="Change Player 2 Disk Color" onclick="changeDiskColor();" />
                     </td>
-                </tr>
+                </tr>            
                 <tr>
-                    <td colspan="2">
-                        <p id="player2Info">Player 2 has 0 disks</p>
+                    <td>
+                        <form>
+                            <select id="gridColorSelector">
+                                <option value="green" selected>Green</option>
+                                <option value="lightgray">Light Gray</option>
+                                <option value="lightblue">Light Blue</option>
+                            </select>
+                        </form>
+                    </td>
+                    <td>
+                        <input type="button" value="Change Grid Color" onclick="changeGridColor();" />
                     </td>
                 </tr>
             </table>
-        </div>
-        <div id="board">
+            <div id="timer"></div>
 
+            <table>
+                <tr>
+                    <td><p id="player1Info">Player 1 has 0 disks</p></td>
+                </tr>
+                <tr>
+                    <td colspan="2"> <p id="player2Info">Player 2 has 0 disks</p></td>
+                </tr>
+            </table>
+        </div>
+        <div id="board" role="main">
+            <div id="gameEnd">
+            </div>
         </div>
     </body>
     </div>
@@ -197,7 +214,7 @@
                 var row = tableBody.insertRow();
                 row.insertCell().innerHTML = "<div class='gridCellNumber'>" + i + "</div>";
                 for (let j = 0; j < gridSize; j++)
-                    row.insertCell().innerHTML = "<div class='gridCell'></div>";
+                    row.insertCell().innerHTML = "<div class='gridCell' role='checkbox' aria-checked='false'></div>";
                 row.insertCell().innerHTML = "<div class='gridCellNumber'>" + i + "</div>";
             }
             $(".gridCell").attr("onclick", "playerTurn(this)");
@@ -264,7 +281,7 @@
                 currentPlayer = currentPlayer == 1 ? 2 : 1;
                 turn++;
                 setValidSpaces();
-                if (opponentType == 'Computer')
+                if (opponentType == 'Computer' && !gameOver)
                     setTimeout(function () { computerTurn() }, 500);
             }
 
@@ -308,7 +325,7 @@
             // remove highlighted space
             if (gridCell.hasChildNodes() && gridCell.childNodes[0].className == "diskHighlight")
                 gridCell.removeChild(gridCell.childNodes[0]);
-
+            gridCell.setAttribute("aria-checked","true");
             // draw disk
             let disk = document.createElement("DIV");
             disk.className = "diskPlayer" + currentPlayer;
@@ -326,19 +343,20 @@
         }
 
         function computerTurn() {
+            if(!gameOver)
+            {
+                let highlightedDisks = Array.from(document.getElementsByClassName("diskHighlight"));
+                let numDisksFlipped = highlightedDisks.map(x => flipDisks(x, true));
+                console.log(numDisksFlipped);
+                let indexOfMax = numDisksFlipped.indexOf(Math.max.apply(null, numDisksFlipped));
 
-            let highlightedDisks = Array.from(document.getElementsByClassName("diskHighlight"));
-            let numDisksFlipped = highlightedDisks.map(x => flipDisks(x, true));
-            console.log(numDisksFlipped);
-            let indexOfMax = numDisksFlipped.indexOf(Math.max.apply(null, numDisksFlipped));
-
-            let gridCell = highlightedDisks[indexOfMax].parentNode
-            drawDisk(gridCell);
-            flipDisks(gridCell.childNodes[0]);
-            currentPlayer = currentPlayer == 1 ? 2 : 1;
-            turn++;
-            setValidSpaces();
-
+                let gridCell = highlightedDisks[indexOfMax].parentNode
+                drawDisk(gridCell);
+                flipDisks(gridCell.childNodes[0]);
+                currentPlayer = currentPlayer == 1 ? 2 : 1;
+                turn++;
+                setValidSpaces();
+            }
         }
 
         // pass td
@@ -376,27 +394,34 @@
             }
             return numCellsFlipped;
         }
-
+        function changeGridColor(){
+            var selector = document.getElementById("gridColorSelector");
+            var newGridColor = selector.options[selector.selectedIndex].value;
+            document.getElementById("gridTable").style.backgroundColor = newGridColor;
+            
+        }
         // change all player's disk color
         function changeDiskColor() {
-            let selector = document.getElementById("diskColorSelector" + currentPlayer);
-            let diskColor = selector.options[selector.selectedIndex].value;
-            $("option[value='" + diskColor + "']").attr("disabled", "disabled");
+            for(var p = 1; p <= 2; p++)
+            {
+                var selector = document.getElementById("diskColorSelector" + p);
+                var diskColor = selector.options[selector.selectedIndex].value;
+                $("option[value='" + diskColor + "']").attr("disabled", "disabled");
 
-            // change color for existing disks and future disks
-            var stylesheet = document.styleSheets;
-            for (var i = 0; i < stylesheet.length; i++) {
-                var styleList = stylesheet[i].cssRules || stylesheet[i].rules;
-                for (var j = 0; j < styleList.length; j++)
-                    if (styleList[j].selectorText == ".diskPlayer" + currentPlayer)
-                        styleList[j].style.backgroundColor = diskColor;
+                // change color for existing disks and future disks
+                var stylesheet = document.styleSheets;
+                for (var i = 0; i < stylesheet.length; i++) {
+                    var styleList = stylesheet[i].cssRules || stylesheet[i].rules;
+                    for (var j = 0; j < styleList.length; j++)
+                        if (styleList[j].selectorText == ".diskPlayer" + p)
+                            styleList[j].style.backgroundColor = diskColor;
+                }
             }
         }
-        function changeGridColor() {
 
-        }
         function updateTimer() {
-            if ($(".diskHighlight")[0]) {
+            if ($(".diskHighlight")[0]) 
+            {
                 let elapsedTime = Date.now() - startTime;
                 let minutes = Math.floor((elapsedTime % 3600000) / 60000);
                 let seconds = Math.floor((elapsedTime % 60000) / 1000);
@@ -407,50 +432,45 @@
 
                 let timer = document.getElementById("timer");
                 timer.innerText = minutes + ":" + seconds;
-            } else {
-                gameDuration = document.getElementById("timer").innerText;
-                let user = getCookie("username");
-                let won = player1Score > player2Score ? true : false
-                let gameState = {
-                    player: user,
-                    duration: gameDuration,
-                    score: player1Score,
-                    winner: won,
-                    action: "saveGame"
-                }
-                saveGame(gameState)
+            } 
+            else 
+            {
+                let data = {
+                    "gridSize": gridSize,
+                    "score": player1Score,
+                    "timePlayed": document.getElementById("timer").innerText,
+                    "isWon": player1Score > player2Score ? "True" : "False"
+                };
+                gameOver = true;
+                saveGame(data);
                 clearInterval(interval)
             }
-
-        }
-
-        function getCookie(name) {
-            var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-            return v ? v[2] : null;
         }
         
         function saveGame(data) {
             $.ajax({
                 type: "POST",
-                url: './server.php',
+                url: 'gameover.php',
                 data: data,
-                success: function (res) {
-                    console.log(res)
+                success: function (response) {
+                    console.log(response)
+                    response = JSON.parse(response);
 
-                    if (res == 'true') {
-                        if(data.winner){
-                            alert(`Game Saved! \n ${data.player} Won with ${data.score} Points \n Game Duration: ${data.duration}`)
-                        }else{
-                            alert(`Game Saved! \n Player2 Won with ${player2Score} Points \n Game Duration: ${data.duration}`)
-                        }
-                    } else {
+                    if (response.hasOwnProperty("username")) 
+                    {
+                        let gameEndDisplay = document.getElementById("gameEnd");
+                        let winningPlayer = data["isWon"] == "True" ? response["username"] + " won": "Player 2 won";
+                        if(player1Score == player2Score)
+                            winningPlayer = "Draw";
+
+                        gameEndDisplay.innerHTML = `<strong>Game Over! </strong>${winningPlayer} in ${data["timePlayed"]}`;
+                    } 
+                    else 
+                    {
                         alert("Failed to save game")
                     }
                 }
-
             });
         }
-
     </script>
-
 </html>

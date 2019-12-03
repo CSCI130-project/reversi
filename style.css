@@ -1,6 +1,26 @@
+#leaderboardPage{
+    position:relative;
+    display:flex;
+    justify-content:space-evenly;
+    flex-direction: column;
+    align-items: center;
+}
+#leaderboardSelect{
+    background-color:lightgray;
+    width:100%;
+    position:relative;
+    display:flex;
+    justify-content:space-evenly;
+    flex-direction: column;
+    align-items: center;
+    height:15vh;
+}
 #firstnameError, #lastnameError, #usernameError, #passwordError, #photoError, #ageError, #locationError, #genderError{
     color:red;
     float:right;
+}
+#leaderboard{
+    margin-top:30px;
 }
 #leaderboard img{
     width:50px;
@@ -9,6 +29,13 @@
 #leaderboard table, #leaderboard th, #leaderboard td{
     border:1px solid black;
     border-collapse:collapse;
+}
+#leaderboard th{
+    padding:0px 10px;
+}
+#leaderboard td{
+   text-align:center;
+   vertical-align: middle;
 }
 #navbar {
     position: relative;
@@ -68,12 +95,13 @@ table#gridTable{
     border:2px solid black;
 }
 #board{
+    position:relative;
     background-color:bisque;
-    height:90vh;
     display:flex;
     justify-content:space-evenly;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
+    height:100vh;
 }
 thead, tfoot{
     background-color:white;
@@ -111,7 +139,7 @@ thead, tfoot{
     animation:blink 0.75s infinite alternate;
 }
 #menu{
-    background-color:gray;
+    background-color:lightgray;
     display:flex;
     justify-content:space-evenly;
     align-items:center;
@@ -119,6 +147,7 @@ thead, tfoot{
 #timer{
     font: 30px "Courier New", Courier, monospace;
     background-color:lightgreen;
+    margin-top:20px;
 }
 #player1Info, #player2Info{
     line-height:0;
