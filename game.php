@@ -32,7 +32,7 @@
         <form id="configForm">
             <h1><ins>Reversi</ins></h1>
             <h2>Play Against:</h2>
-            <input id="opponentPlayer" type="radio" name="opponentType" value="Person">Person <br />
+            <input id="opponentPlayer" type="radio" name="opponentType" value="Person" checked>Person <br />
             <input id="opponentComputer" type="radio" name="opponentType" value="Computer">Computer <br />
             <br />
             <label for="layoutSize">Select Grid Size:</label>
@@ -389,6 +389,8 @@
                             numCellsFlipped += flipOpponents.length;
                         }
                     }
+                    else
+                        break;
                     eval(directions[i].operation);
                 }
             }
