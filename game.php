@@ -110,7 +110,7 @@ if (!isset($_SESSION["username"]))
         </table>
     </div>
     <div id="board" role="main">
-        <div id="gameEnd">
+        <div id="gameEnd" style="text-align: center">
         </div>
     </div>
 </body>
@@ -183,7 +183,8 @@ if (!isset($_SESSION["username"]))
     ]
     $(document).ready(function() {
         $("#menu").hide();
-        $("#board").hide()
+        $("#board").hide();
+        $("#gameEnd").hide();   
         //$("#sizeForm").hide();
     })
 
@@ -455,6 +456,12 @@ if (!isset($_SESSION["username"]))
         }
     }
 
+    function reloadGame(){
+        console.log("clicked")
+        location.reload()
+    }
+        
+
     function saveGame(data) {
         $.ajax({
             type: "POST",
@@ -469,8 +476,8 @@ if (!isset($_SESSION["username"]))
                     let winningPlayer = data["isWon"] == "True" ? response["username"] + " won" : "Player 2 won";
                     if (player1Score == player2Score)
                         winningPlayer = "Draw";
-
-                    gameEndDisplay.innerHTML = `<strong>Game Over! </strong>${winningPlayer} in ${data["timePlayed"]}`;
+                    $("#gameEnd").show();
+                    gameEndDisplay.innerHTML = `<strong>Game Over! </strong>${winningPlayer} in ${data["timePlayed"]}<br/><button onClick="reloadGame()">Play Again</button>`;
                 } else {
                     alert("Failed to save game")
                 }
