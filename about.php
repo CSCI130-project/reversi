@@ -19,6 +19,7 @@ if (!isset($_SESSION["username"]))
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             transition: 0.3s;
             font-size: 30px;
+            background-color: white;
         }
 
         section {
@@ -53,8 +54,17 @@ if (!isset($_SESSION["username"]))
             <p>
                 William Chen
             </p>
-            <p style="font-size: 20px"  >
+            <p style="font-size: 18px">
                 Bachelors in Computer Science - Fresno State
+            </p>
+            <p style="font-size: 18px">
+                Software Engineer
+            </p>
+            <p style="font-size: 18px">
+                Front-End Developer
+            </p>
+            <p style="font-size: 18px">
+                Mobile Developer
             </p>
         </div>
         <div class="card" style="margin-left: 50px;">
@@ -62,8 +72,17 @@ if (!isset($_SESSION["username"]))
             <p>
                 Leonardo Yoshida
             </p>
-            <p style="font-size: 20px">
+            <p style="font-size: 18px">
                 Bachelors in Computer Science - Fresno State
+            </p>
+            <p style="font-size: 18px">
+                Software Engineer
+            </p>
+            <p style="font-size: 18px">
+                Front-End Developer
+            </p>
+            <p style="font-size: 18px">
+                Mobile Developer
             </p>
         </div>
 
