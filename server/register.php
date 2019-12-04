@@ -93,7 +93,7 @@ function saveToDatabase()
 function uploadFile()
 {
     global $errors, $username;
-    $target_dir = "uploads/";
+    $target_dir = "../uploads/";
     $target_file = $target_dir . $username . "-" . basename($_FILES["fileup"]["name"]);
     $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
     $uploadOk = true;

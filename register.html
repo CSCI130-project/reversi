@@ -72,7 +72,7 @@
                 formData.append('fileup', $('input[type=file]')[0].files[0]);
 
                 $.ajax({
-                    url: 'register.php',
+                    url: './server/register.php',
                     data: formData,
                     type: 'POST',
                     contentType: false,
@@ -91,21 +91,6 @@
                         }
                     },
                 });
-            }
-            function login()
-            {
-                /*
-                var username = document.getElementById("username").value;
-                var password = document.getElementById("password").value;
-
-                var d = new Date();
-                d.setTime(d.getTime() + (3*24*60*60*1000));
-                var expires = "Cookie expires="+ d.toUTCString();
-
-                document.cookie = `username=${username};expires=${expires}`;
-                document.cookie = `password=${password};;expires=${expires}`;
-                window.open("setup.html","_self",false);
-                */
             }
         </script>
     </body>

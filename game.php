@@ -450,7 +450,7 @@
         function saveGame(data) {
             $.ajax({
                 type: "POST",
-                url: 'gameover.php',
+                url: './server/gameover.php',
                 data: data,
                 success: function (response) {
                     console.log(response)

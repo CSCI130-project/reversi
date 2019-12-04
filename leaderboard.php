@@ -55,7 +55,7 @@
             var formElement = document.querySelector("form");
             var formData = new FormData(formElement);
             $.ajax({
-                url: 'orderLeaderboard.php',
+                url: './server/orderLeaderboard.php',
                 data: formData,
                 type: 'POST',
                 contentType: false,
