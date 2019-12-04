@@ -54,7 +54,7 @@ if (!isset($_SESSION["username"]))
         </p>
         <p>The first 4 disks must be placed on the four center squares.</p>
         <p>
-            During a play, any disks of the opponent's color that are in a straight line and bounded by the disk just placed and another disk of the current player's color are turned over to the current player's color.
+            During a play, any disks of the opponent's color that are in a straight or diagonal line and bounded by the disk just placed and another disk of the current player's color are turned over to the current player's color.
         </p>
         <p>
             Play against either another person or the computer. When starting a new game, select the grid size. When playing, you can change the disk colors and grid color.
