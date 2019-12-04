@@ -398,10 +398,8 @@ if (!isset($_SESSION["username"]))
                     } else {
                         numCellsFlipped += flipOpponents.length;
                     }
-                    else
-                        break;
-                    eval(directions[i].operation);
-                }
+                } else
+                    break;
                 eval(directions[i].operation);
             }
         }
