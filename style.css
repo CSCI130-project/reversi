@@ -1,3 +1,6 @@
+body {
+    background-color:bisque;
+}
 #leaderboardPage{
     position:relative;
     display:flex;

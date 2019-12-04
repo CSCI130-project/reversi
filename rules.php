@@ -20,7 +20,10 @@ if (!isset($_SESSION["username"]))
             transition: 0.3s;
             margin-left: 10%;
             margin-right: 10%;
+            margin-top: 10px;
             font-size: 30px;
+            background-color: white;
+            padding: 15px;
         }
         p {
             padding: 5px;
