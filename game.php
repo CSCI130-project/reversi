@@ -34,7 +34,7 @@ if (!isset($_SESSION["username"]))
         <div>
             <label><strong>Play Against:</strong></label>
             <div>
-                <input id="opponentPlayer" type="radio" name="opponentType" value="Person">Person <br />
+                <input id="opponentPlayer" type="radio" name="opponentType" value="Person" checked>Person <br />
                 <input id="opponentComputer" type="radio" name="opponentType" value="Computer">Computer <br />
             </div>
         </div>
