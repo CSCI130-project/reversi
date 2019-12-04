@@ -7,6 +7,7 @@ if (!isset($_SESSION["username"]))
 
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
 
 <head>
     <meta charset="utf-8" />
@@ -41,6 +42,37 @@ if (!isset($_SESSION["username"]))
         <br />
         <div>
             <label for="layoutSize"><strong>Select Grid Size:</strong></label>
+=======
+    <head>
+        <meta charset="utf-8" />
+        <title>Reversi</title>
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    </head>
+
+    <header role="banner">
+        <nav id="navbar" role="navigation">
+            <a class="brand"><strong>REVERSI</strong></a>
+            <ul id="navigation">
+                <li class="nav-items"><a class="nav-link active" href="game.php">Play</a></li>
+                <li class="nav-items"><a class="nav-link" href="leaderboard.php">Leaderboard</a></li>
+                <li class="nav-items"><a class="nav-link" href="rules.php">Rules</a></li>
+                <li class="nav-items"><a class="nav-link" href="about.php">About</a></li>
+                <li class="nav-items"><a class="nav-link" href="logout.php">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <body>
+        <form id="configForm">
+            <h1><ins>Reversi</ins></h1>
+            <h2>Play Against:</h2>
+            <input id="opponentPlayer" type="radio" name="opponentType" value="Person" checked>Person <br />
+            <input id="opponentComputer" type="radio" name="opponentType" value="Computer">Computer <br />
+            <br />
+            <label for="layoutSize">Select Grid Size:</label>
+>>>>>>> 56446f8b4f068c2764a9306ed86d3f3313295ce5
             <select id=layoutSize>
                 <option>4x4</option>
                 <option>6x6</option>
@@ -398,6 +430,12 @@ if (!isset($_SESSION["username"]))
                     } else {
                         numCellsFlipped += flipOpponents.length;
                     }
+<<<<<<< HEAD
+=======
+                    else
+                        break;
+                    eval(directions[i].operation);
+>>>>>>> 56446f8b4f068c2764a9306ed86d3f3313295ce5
                 }
                 eval(directions[i].operation);
             }

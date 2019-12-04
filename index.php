@@ -1,3 +1,10 @@
+<?php
+    # check if user is logged in
+    session_start();
+    if(isset($_SESSION["username"]))
+        header("location: game.php");    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
